@@ -1,16 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import ScoreCircle from "~/components/ScoreCircle";
 import {useEffect, useState} from "react";
-import {usePuterStore} from "~/lib/puter";
+import {supabase} from "~/lib/supabase";
 
-const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath } }: { resume: Resume }) => {
-    const { fs } = usePuterStore();
+const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath } }: { resume: any }) => {
     const [resumeUrl, setResumeUrl] = useState('');
 
     useEffect(() => {
         const loadResume = async () => {
-            const blob = await fs.read(imagePath);
-            if(!blob) return;
+            if (!imagePath) return;
+            const { data: blob, error } = await supabase.storage.from('resumes').download(imagePath);
+            if(error || !blob) return;
             let url = URL.createObjectURL(blob);
             setResumeUrl(url);
         }
@@ -27,7 +27,7 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
                     {!companyName && !jobTitle && <h2 className="!text-black font-bold">Resume</h2>}
                 </div>
                 <div className="flex-shrink-0">
-                    <ScoreCircle score={feedback.overallScore} />
+                    <ScoreCircle score={feedback?.overallScore || feedback?.overall_score || 0} />
                 </div>
             </div>
             {resumeUrl && (

@@ -1,4 +1,4 @@
-import {usePuterStore} from "~/lib/puter";
+import {useAppStore} from "~/lib/store";
 import {useEffect} from "react";
 import {useLocation, useNavigate} from "react-router";
 
@@ -8,7 +8,7 @@ export const meta = () => ([
 ])
 
 const Auth = () => {
-    const { isLoading, auth } = usePuterStore();
+    const { isLoading, auth, error } = useAppStore();
     const location = useLocation();
     const next = location.search.split('next=')[1];
     const navigate = useNavigate();
@@ -25,9 +25,14 @@ const Auth = () => {
                         <h1>Welcome</h1>
                         <h2>Log In to Continue Your Job Journey</h2>
                     </div>
+                    {error && (
+                        <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 text-sm text-center font-medium animate-in fade-in duration-200">
+                            Sign-in failed — check your email/password or try again.
+                        </div>
+                    )}
                     <div>
                         {isLoading ? (
-                            <button className="auth-button animate-pulse">
+                            <button className="auth-button animate-pulse" disabled>
                                 <p>Signing you in...</p>
                             </button>
                         ) : (

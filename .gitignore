@@ -4,3 +4,18 @@
 # React Router
 /.react-router/
 /build/
+
+# Environments
+.env
+.env.local
+.env.*.local
+
+# Backups and Logs
+frontend_backup/
+temp_ui/
+*.log
+*.txt
+
+# IDEs
+.vscode/
+.idea/

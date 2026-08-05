@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ai-resume-analyzer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ai-resume-analyzer:latest
+    container_name: ai-resume-analyzer-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # Supabase configuration
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      # AI Model API Keys
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    restart: unless-stopped
