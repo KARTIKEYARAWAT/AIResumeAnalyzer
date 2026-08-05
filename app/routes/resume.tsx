@@ -7,7 +7,7 @@ import { ChevronLeft, BrainCircuit, LayoutList, Target, Sparkles, Check, Zap, Do
 import FullReport from "~/components/FullReport";
 
 export default function Resume() {
-    const { auth } = useAppStore();
+    const { auth, isLoading: isStoreLoading } = useAppStore();
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -17,8 +17,8 @@ export default function Resume() {
     const [activeReportTab, setActiveReportTab] = useState('section-1');
 
     useEffect(() => {
-        if (!auth.isLoading && !auth.isAuthenticated) navigate(`/auth?next=/resume/${id}`);
-    }, [auth.isLoading, auth.isAuthenticated, navigate, id]);
+        if (!isStoreLoading && !auth.isAuthenticated) navigate(`/auth?next=/resume/${id}`);
+    }, [isStoreLoading, auth.isAuthenticated, navigate, id]);
 
     useEffect(() => {
         const fetchAnalysis = async () => {

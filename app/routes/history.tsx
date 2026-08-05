@@ -12,14 +12,14 @@ export const meta = () => ([
 ])
 
 export default function History() {
-    const { auth } = useAppStore();
+    const { auth, isLoading: isStoreLoading } = useAppStore();
     const navigate = useNavigate();
     const [resumes, setResumes] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (!auth.isLoading && !auth.isAuthenticated) navigate('/auth?next=/history');
-    }, [auth.isLoading, auth.isAuthenticated]);
+        if (!isStoreLoading && !auth.isAuthenticated) navigate('/auth?next=/history');
+    }, [isStoreLoading, auth.isAuthenticated]);
 
     useEffect(() => {
         const fetchHistory = async () => {
